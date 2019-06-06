@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="stylesheets/styles-box.css">
+    <title>抽獎機</title>
+
+</head>
+
+<body>
+    <div class="container">
+        <h1>抽獎機</h1>
+        <div class="number">
+            最小號碼:
+            <input type="text" class="font-weight-normal" id="minnum">
+            最大號碼:
+            <input type="text" class="font-weight-normal" id="maxnum">
+        </div>
+        <p>已經抽過:<input type="text" class="font-weight-normal" id="finally_num"></p>
+        <div class="box">
+            <div class="mb-2" id="showball">
+                <!-- <div class="hiden"></div>
+                <div class="hiden"></div> -->
+            </div>
+        </div>
+        <div class="buttonbox">
+            <button type="button" class="btn btn-secondary btn-block" id="start" style="width: 80px;">抽獎</button>
+            <button type="button" class="btn btn-secondary btn-block" id="end" style="width: 120px;">重新開始</button>
+        </div>
+
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+
+    <script>
+        var array = [];
+        $("#start").click(function () {
+            playgame();
+        })
+
+        $("#end").click(function () {
+            document.getElementById("minnum").value = "";
+            document.getElementById("maxnum").value = "";
+            document.getElementById("showball").innerHTML = "";
+            document.getElementById("finally_num").value = "";
+        })
+        //抽獎
+        function playgame() {
+            var min = document.getElementById("minnum").value;
+            var max = document.getElementById("maxnum").value;
+            var minnum = parseInt(min);
+            var maxnum = parseInt(max);
+            //防呆
+            if (minnum > maxnum) {
+                alert("最小值不對喔");
+                document.getElementById("minnum").value = "";
+                document.getElementById("maxnum").value = "";
+                return;
+            }
+            
+            if (array.length == 0) {
+                for (var i = minnum; i <= maxnum; i++) {
+                    array.push(i);
+                }
+            }
+
+            numbertype();
+
+            if (array.length == 0) {
+                // setTimeout('alert("已經抽完了")',1000);
+                alert("已經抽完了");
+                // document.getElementById("minnum").value = "";
+                // document.getElementById("maxnum").value = "";
+                // document.getElementById("showball").innerHTML = "";
+                // document.getElementById("finally_num").value = "";
+            }
+            console.log(array);
+            console.log(array.length);
+        }
+
+        //產生亂數 
+        function numbertype() {
+            var number = Math.floor(Math.random() * array.length);
+            document.getElementById("showball").innerHTML = '<div class="mb-2" id="showball">' + array[number] + '</div>';
+            document.getElementById("finally_num").value += array[number] + " ";
+            
+            array.splice(number, 1);
+        }
+
+    </script>
+</body>
+
+</html>
